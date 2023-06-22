@@ -64,3 +64,29 @@ def get_customer_by_name(name):
   myresult = mycursor.fetchall()   
 
   return myresult
+
+def delete_customer_by_id(id):
+  sql = f"DELETE FROM customers WHERE id = { id }"
+
+  mycursor.execute(sql)
+
+  mydb.commit()
+
+  print(mycursor.rowcount, "record(s) deleted")
+
+def update_customer(id, name="", address=""):
+  customer = get_customer_by_id(id)
+  if not name:
+     name = customer[0]
+  if not address:
+     address = customer[1]
+  sql = "UPDATE customers "
+  sql += f"SET address = '{ address }', name = '{ name }'"
+  sql += f" WHERE id = { id }"
+
+  print(sql)
+  mycursor.execute(sql)
+
+  mydb.commit()
+
+  print(mycursor.rowcount, "record(s) affected") 
